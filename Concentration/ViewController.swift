@@ -9,11 +9,17 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
+    var touches = 0 {
+        didSet {
+            touchLebel.text = "Touches: \(touches)"
+        }
     }
-
-
+    
+    
+    @IBOutlet var buttonCollection: [UIButton]!
+    @IBOutlet weak var touchLebel: UILabel!
+    @IBAction func buttonAction(_ sender: UIButton) {
+        touches += 1;
+    }
 }
 
