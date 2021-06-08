@@ -17,22 +17,52 @@ class ViewController: UIViewController {
         }
     }
     
-    var emojiCollection = ["🐱","🐭","🐹","🐰","🦊","🐼","🐻‍❄️","🐨","🐯","🦁","🐮","🐷","🐽","🐸","🐗","🐴","🦄","🐝","🪱"]
+    var emojiCollection = ["🐱","🐭","🐹","🐰","🦊","🐼","🐻‍❄️","🐨","🐯","🦁","🐮","🐷","🐽","🐸","🐱","🐭","🐹","🐰","🦊","🐼","🐻‍❄️","🐨","🐯","🦁","🐮","🐷","🐽","🐸"]
+                           //"🐗","🐴","🦄","🐝","🪱"]
+    lazy var arrayOfIdentifiertmp: [Int] = Array (1...buttonCollection.capacity/2)
+    lazy var arrayOfIdentifier: [Int] = arrayOfIdentifiertmp + arrayOfIdentifiertmp
+    
    
     var emojiDictionary = [Int: String]()
     
-    func emojiIdentifier(for card: Card) -> String{
+    var emojiWhichChoosed = Set<Int>()
+    
+  /*  func emojiIdentifier(for card: Card) -> String{
         if emojiDictionary[card.identifier] == nil {
-            let randomIndex = Int(arc4random_uniform(UInt32(emojiCollection.count)))
-            emojiDictionary[card.identifier] = emojiCollection.remove(at: randomIndex)
+            var randomIndex = Int(arc4random_uniform(UInt32(emojiCollection.count)))
+            if randomIndex > emojiDictionary.count/2 {
+                randomIndex -= emojiDictionary.count/2 
+            }
+            if  !emojiWhichChoosed.contains(randomIndex){
+                emojiDictionary[card.identifier] = emojiCollection[randomIndex]
+                emojiWhichChoosed.insert(randomIndex)
+            } else {emojiDictionary[card.identifier] = emojiCollection.remove(at: randomIndex)}
         }
         if emojiDictionary[card.identifier] != nil {
-            return emojiDictionary[card.identifier]!
+            return (emojiDictionary[card.identifier]! + String(card.identifier))
         } else {
             return "?"  // можно еще return emojiDictionary[card.identifier]! ?? "?"
         }
-    }
-    
+    }*/
+    func emojiIdentifier(for card: Card) -> String{
+          if emojiDictionary[card.identifier] == nil {
+            let randomIndex = Int(arc4random_uniform(UInt32(arrayOfIdentifier.count)))
+//              if randomIndex > emojiDictionary.count/2 {
+  //                randomIndex -= emojiDictionary.count/2
+    //          }
+            let memberOfArraeOfIdentifier = arrayOfIdentifier.remove(at: randomIndex)
+            if  !emojiWhichChoosed.contains(memberOfArraeOfIdentifier){
+                  emojiDictionary[card.identifier] = emojiCollection[memberOfArraeOfIdentifier]
+                  emojiWhichChoosed.insert(memberOfArraeOfIdentifier)
+              } else {emojiDictionary[card.identifier] = emojiCollection.remove(at: memberOfArraeOfIdentifier)}
+          }
+          if emojiDictionary[card.identifier] != nil {
+              return (emojiDictionary[card.identifier]! + String(card.identifier))
+          } else {
+              return "?"  // можно еще return emojiDictionary[card.identifier]! ?? "?"
+          }
+      }
+
     func updateViewFromModel(){
         for index in buttonCollection.indices{
             let button = buttonCollection[index]

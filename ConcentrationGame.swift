@@ -36,8 +36,13 @@ class ConcentrationGame {
     init(numberOfPairsOfCards: Int) {
         for _ in 1...numberOfPairsOfCards {
             let card = Card()
-            cards.append(card)
-            cards.append(card) // или cards += [card,card]
+            cards += [card,card]
+        }
+        for index in 1...numberOfPairsOfCards{
+            let tmp = cards[index].identifier
+            let randomIdentifier = Int(arc4random_uniform(UInt32(numberOfPairsOfCards*2)))
+            cards[index].identifier = cards[randomIdentifier].identifier
+            cards[randomIdentifier].identifier = tmp
         }
     }
     

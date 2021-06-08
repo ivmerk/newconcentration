@@ -15,7 +15,8 @@ struct Card {
     
     static var identifierNumber = 0
     static func identifierGenerator() -> Int{
-        identifierNumber += 1
+    identifierNumber += 1
+
         return identifierNumber
     }
     init() {
