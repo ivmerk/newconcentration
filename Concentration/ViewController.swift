@@ -9,58 +9,29 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    lazy var game = ConcentrationGame(numberOfPairsOfCards: (buttonCollection.count + 1) / 2)
+    private lazy var game = ConcentrationGame(numberOfPairsOfCards: numberOfPairOfCards)
     
-    var touches = 0 {
+    var numberOfPairOfCards: Int{
+        return (buttonCollection.count + 1) / 2
+    }
+    
+    private(set) var touches = 0 {
         didSet {
             touchLebel.text = "Touches: \(touches)"
         }
     }
     
-    var emojiCollection = ["🐱","🐭","🐹","🐰","🦊","🐼","🐻‍❄️","🐨","🐯","🦁","🐮","🐷","🐽","🐸","🐱","🐭","🐹","🐰","🦊","🐼","🐻‍❄️","🐨","🐯","🦁","🐮","🐷","🐽","🐸"]
-                           //"🐗","🐴","🦄","🐝","🪱"]
-    lazy var arrayOfIdentifiertmp: [Int] = Array (1...buttonCollection.capacity/2)
-    lazy var arrayOfIdentifier: [Int] = arrayOfIdentifiertmp + arrayOfIdentifiertmp
+   private var emojiCollection = ["🐱","🐭","🐹","🐰","🦊","🐼","🐻‍❄️","🐨","🐯","🦁","🐮","🐷","🐽","🐗","🐴","🦄","🐝","🪱"]
+
+   private var emojiDictionary = [Int: String]()
     
-   
-    var emojiDictionary = [Int: String]()
+   private var emojiWhichChoosed = Set<Int>()
     
-    var emojiWhichChoosed = Set<Int>()
-    
-  /*  func emojiIdentifier(for card: Card) -> String{
-        if emojiDictionary[card.identifier] == nil {
-            var randomIndex = Int(arc4random_uniform(UInt32(emojiCollection.count)))
-            if randomIndex > emojiDictionary.count/2 {
-                randomIndex -= emojiDictionary.count/2 
-            }
-            if  !emojiWhichChoosed.contains(randomIndex){
-                emojiDictionary[card.identifier] = emojiCollection[randomIndex]
-                emojiWhichChoosed.insert(randomIndex)
-            } else {emojiDictionary[card.identifier] = emojiCollection.remove(at: randomIndex)}
-        }
-        if emojiDictionary[card.identifier] != nil {
-            return (emojiDictionary[card.identifier]! + String(card.identifier))
-        } else {
-            return "?"  // можно еще return emojiDictionary[card.identifier]! ?? "?"
-        }
-    }*/
-    func emojiIdentifier(for card: Card) -> String{
+    private func emojiIdentifier(for card: Card) -> String{
           if emojiDictionary[card.identifier] == nil {
-            let randomIndex = Int(arc4random_uniform(UInt32(arrayOfIdentifier.count)))
-//              if randomIndex > emojiDictionary.count/2 {
-  //                randomIndex -= emojiDictionary.count/2
-    //          }
-            let memberOfArraeOfIdentifier = arrayOfIdentifier.remove(at: randomIndex)
-            if  !emojiWhichChoosed.contains(memberOfArraeOfIdentifier){
-                  emojiDictionary[card.identifier] = emojiCollection[memberOfArraeOfIdentifier]
-                  emojiWhichChoosed.insert(memberOfArraeOfIdentifier)
-              } else {emojiDictionary[card.identifier] = emojiCollection.remove(at: memberOfArraeOfIdentifier)}
+            emojiDictionary[card.identifier] = emojiCollection.remove(at: emojiCollection.count.arc4randomExtention)
           }
-          if emojiDictionary[card.identifier] != nil {
-              return (emojiDictionary[card.identifier]! + String(card.identifier))
-          } else {
-              return "?"  // можно еще return emojiDictionary[card.identifier]! ?? "?"
-          }
+            return (emojiDictionary[card.identifier]! + String(card.identifier)) ?? "?"
       }
 
     func updateViewFromModel(){
@@ -77,9 +48,9 @@ class ViewController: UIViewController {
         }
     }
     
-    @IBOutlet var buttonCollection: [UIButton]!
-    @IBOutlet weak var touchLebel: UILabel!
-    @IBAction func buttonAction(_ sender: UIButton) {
+    @IBOutlet private var buttonCollection: [UIButton]!
+    @IBOutlet private weak var touchLebel: UILabel!
+    @IBAction private func buttonAction(_ sender: UIButton) {
         touches += 1;
         if let buttonIndex = buttonCollection.firstIndex(of: sender){
             game.chooseCard(at: buttonIndex)
@@ -87,4 +58,8 @@ class ViewController: UIViewController {
         }
     }
 }
-
+extension Int {
+    var arc4randomExtention: Int{
+        return Int(arc4random_uniform(UInt32(self)))
+    }
+}
