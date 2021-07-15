@@ -14,7 +14,7 @@ class ConcentrationGame {
     private var indexOfOneAndOnlyFaceUpCard: Int?{
         get{
             var foundIndex: Int?
-            for index in cards.indices{
+            for index in cards.indices{   //проверяем есть ли перевернутые карточки
                 if cards[index].isFaceUp{
                     if foundIndex == nil {
                         foundIndex = index
